@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="lib/kinetic-v4.3.1.js"></script>
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="js/Game.js"></script>
+    <script type="text/javascript" src="js/Game.Board.js"></script>
+    <script type="text/javascript" src="js/Game.Obstacle.HorizontalLine.js"></script>
+    <script type="text/javascript" src="js/Game.Obstacle.VerticalLine.js"></script>
+    <script type="text/javascript" src="js/Game.Player.js"></script>
+    <script type="text/javascript" src="js/test.js"></script>
+    <title>KineticJS</title>
+</head>
+<script type="text/javascript">
+    $(document).ready(function(){
+        startGame();
+    })
+</script>
+<body>
+<div id="buttons">
+    <input type="button" id="stop" value="Pause">
+    <input type="button" id="continue" value="Continue">
+</div>
+<div id="game"></div>
+
+</body>
+<script type="text/javascript">
+    var anim;
+
+    document.getElementById('stop').addEventListener('click', function() {
+        pauseGame();
+    }, false);
+    document.getElementById('continue').addEventListener('click', function() {
+        continueGame();
+    }, false);
+
+</script>
+</html>
