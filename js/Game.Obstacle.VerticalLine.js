@@ -22,48 +22,45 @@
         });
 
         function _checkIfBlocking(player){
-            var i,j,x,y1,y2,temp,pos,x1,x2,y,x3,x4;
-            x = _this.position[0][0];
-            y1 = _this.position[0][1];
-            y2 = _this.position[1][1];
-            if(y1>y2){
-                temp = y1;
-                y1 = y2;
-                y2 = temp;
+            var obstacleX,obstacleY1,obstacleY2,temp,posX,posY,rightBoundary,leftBoundary,obstacleX1,obstacleX2;
+            obstacleX = _this.position[0][0];
+            obstacleY1 = _this.position[0][1];
+            obstacleY2 = _this.position[1][1];
+            if(obstacleY1>obstacleY2){
+                temp = obstacleY1;
+                obstacleY1 = obstacleY2;
+                obstacleY2 = temp;
             }
             if(player.Vy == 0){
+                posY = player.getPlayer().getY();
                 if(player.Vx == -1){
-                    pos = player.getPlayer().getX()-player.getPlayer().getRadius();
-                    y1 -= player.getPlayer().getRadius();
-                    x1 = x + player.getSpeed();
-                    x2 = x - player.getSpeed();
+                    posX = player.getLeftPosition();
                 }
                 else{
-                    pos = player.getPlayer().getX()+player.getPlayer().getRadius();
-                    y1 -= player.getPlayer().getRadius();
-                    x1 = x + player.getSpeed();
-                    x2 = x - player.getSpeed();
+                    posX = player.getRightPosition();
                 }
-                if((pos < x1 && pos >x2) && (player.getPlayer().getY() > y1 && player.getPlayer().getY() < y2)){
+                obstacleY1 -= player.getPlayer().getRadius();
+                obstacleY2 += player.getPlayer().getRadius();
+                rightBoundary = obstacleX + player.getSpeed();
+                leftBoundary = obstacleX - player.getSpeed();
+                if((posX < rightBoundary && posX >leftBoundary) && (posY > obstacleY1 && posY < obstacleY2)){
                     player.Vy = 0;
                     player.Vx *= -1;
                 }
             }
             else{
-                if(player.Vy == 1){
-                    x1  = y1 - player.getPlayer().getRadius() + player.getSpeed();
-                    x2 = y1 - player.getPlayer().getRadius() - player.getSpeed();
-                    y1 = x - player.getPlayer().getRadius();
-                    y2 = x + player.getPlayer().getRadius();
+                if (player.Vy == 1) {
+                    rightBoundary = obstacleY1 - player.getPlayer().getRadius() + player.getSpeed();
+                    leftBoundary = obstacleY1 - player.getPlayer().getRadius() - player.getSpeed();
+                } else {
+                    rightBoundary = obstacleY2 + player.getPlayer().getRadius() + player.getSpeed();
+                    leftBoundary = obstacleY2 + player.getPlayer().getRadius() - player.getSpeed();
                 }
-                else{
-                    x1  = y2 + player.getPlayer().getRadius() + player.getSpeed();
-                    x2 = y2 + player.getPlayer().getRadius() - player.getSpeed();
-                    y1 = x - player.getPlayer().getRadius();
-                    y2 = x + player.getPlayer().getRadius();
-                }
-                pos = player.getPlayer().getY();
-                if((pos > x2 && pos < x1)  && (player.getPlayer().getX() > y1 && player.getPlayer().getX() < y2)){
+                obstacleX1 = obstacleX - player.getPlayer().getRadius();
+                obstacleX2 = obstacleX + player.getPlayer().getRadius();
+                posY = player.getPlayer().getY();
+                posX = player.getPlayer().getX();
+                if((posY > leftBoundary && posY < rightBoundary)  && (posX > obstacleX1 && posX < obstacleX2)){
                     player.Vx = 0;
                     player.Vy *= -1;
                 }

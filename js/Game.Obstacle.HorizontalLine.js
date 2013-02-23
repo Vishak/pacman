@@ -22,52 +22,46 @@
         });
 
         function _checkIfBlocking(player){
-            var i, j, x,y1,y2,temp,pos,x1,x2, y,x3,x4;
-            y = _this.position[0][1];
-            x1 = _this.position[0][0];
-            x2 = _this.position[1][0];
-            if(x1>x2){
-                temp = x1;
-                x1 = x2;
-                x2 = temp;
+            var temp,obstacleY,obstacleY1,obstacleY2,posX,posY,rightBoundary,leftBoundary,obstacleX1,obstacleX2;
+            obstacleY = _this.position[0][1];
+            obstacleX1 = _this.position[0][0];
+            obstacleX2 = _this.position[1][0];
+            if(obstacleX1>obstacleX2){
+                temp = obstacleX1;
+                obstacleX1 = obstacleX2;
+                obstacleX2 = temp;
             }
             if(player.Vy == 0){
                 if(player.Vx == 1){
-//                        pos = x1 - player.getPlayer().getRadius();
-                    x3  = x1 - player.getPlayer().getRadius() - player.getSpeed();
-                    x4 = x1 - player.getPlayer().getRadius() + player.getSpeed();
-                    y1 = y - player.getPlayer().getRadius();
-                    y2 = y + player.getPlayer().getRadius();
+                    leftBoundary = obstacleX1 - player.getPlayer().getRadius() - player.getSpeed();
+                    rightBoundary = obstacleX1 - player.getPlayer().getRadius() + player.getSpeed();
                 }
                 else{
-                    x3  = x2 + player.getPlayer().getRadius() - player.getSpeed();
-                    x4 = x2 + player.getPlayer().getRadius() + player.getSpeed();
-//                        pos = x2 + player.getPlayer().getRadius();
-                    y1 = y - player.getPlayer().getRadius();
-                    y2 = y + player.getPlayer().getRadius();
+                    leftBoundary = obstacleX2 + player.getPlayer().getRadius() - player.getSpeed();
+                    rightBoundary = obstacleX2 + player.getPlayer().getRadius() + player.getSpeed();
                 }
-                pos = player.getPlayer().getX();
-                if((pos > x3 && pos <x4) && (player.getPlayer().getY() > y1 && player.getPlayer().getY() < y2)){
+                obstacleY1 = obstacleY - player.getPlayer().getRadius();
+                obstacleY2 = obstacleY + player.getPlayer().getRadius();
+                posX = player.getPlayer().getX();
+                posY = player.getPlayer().getY();
+                if((posX > leftBoundary && posX < rightBoundary) && (posY > obstacleY1 && posY < obstacleY2)){
                     player.Vy = 0;
                     player.Vx *= -1;
                 }
             }
             else{
                 if(player.Vy == 1){
-                    pos = player.getPlayer().getY() + player.getPlayer().getRadius();
-                    x1 -=  player.getPlayer().getRadius();
-                    x2 -=  player.getPlayer().getRadius();
-                    y1 = y + player.getSpeed();
-                    y2 = y - player.getSpeed();
+                    posY = player.getBottomPosition();
                 }
                 else{
-                    pos = player.getPlayer().getY() - player.getPlayer().getRadius();
-                    x1 -= player.getPlayer().getRadius();
-                    x2 += player.getPlayer().getRadius();
-                    y1 = y + player.getSpeed();
-                    y2 = y - player.getSpeed();
+                    posY = player.getTopPosition();
                 }
-                if((pos <y1 && pos >y2) && (player.getPlayer().getX() > x1 && player.getPlayer().getX() < x2)){
+                obstacleX1 -=  player.getPlayer().getRadius();
+                obstacleX2 +=  player.getPlayer().getRadius();
+                obstacleY1 = obstacleY + player.getSpeed();
+                obstacleY2 = obstacleY - player.getSpeed();
+                posX = player.getPlayer().getX();
+                if((posY <obstacleY1 && posY >obstacleY2) && (posX > obstacleX1 && posX < obstacleX2)){
                     player.Vx = 0;
                     player.Vy *= -1;
                 }
