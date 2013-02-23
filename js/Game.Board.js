@@ -13,6 +13,7 @@
         _this.obstacles = [];
         _this.players = [];
         _this.grid;
+        _this.bots = [];
 
         //Methods
         _this.init = _init;
@@ -24,6 +25,8 @@
         _this.start = _start;
         _this.updatePlayerPosition = _updatePlayerPosition;
         _this.pause = _pause;
+        _this.addBots = _addBots;
+        _this.updateBotPositions = _updateBotPositions;
 
         function _init(){
             var verticalObstaclePositions = {1:[[160,0],[160,100]],
@@ -32,15 +35,19 @@
                 2:[[400,300],[600,300]],3:[[350,100],[600,100]]}
             var obs;
             $.each(verticalObstaclePositions,function(i,v){
-//                obs = new GAME.Obstacle(v,"vertical");
                 obs = new GAME.Obstacle.VerticalLine(v);
                 _this.obstacles.push(obs);
             });
             $.each(horizontalObstaclePositions,function(i,v){
                 obs = new GAME.Obstacle.HorizontalLine(v);
-//                obs = new GAME.Obstacle(v,"horizontal");
                 _this.obstacles.push(obs);
             });
+            var botPositions = [{x:10,y:10},{x:10,y:390}
+//                ,{x:590,y:10},{x:590,y:390}
+            ]
+            $.each(botPositions,function(i,v){
+                _this.bots.push(new GAME.Player.Bots(v));
+            })
         }
 
         function setWidth(width){
@@ -75,6 +82,13 @@
             });
         }
 
+        function _addBots(){
+            $.each(_this.bots,function(i,v){
+                _this.board.add(v.getPlayer());
+                v.setAnimation(_this);
+            });
+        }
+
         function _addPlayer(player){
             _this.players.push(player);
             _this.board.add(player.getPlayer());
@@ -85,10 +99,16 @@
             $.each(_this.players,function(i,v){
                 v.start();
             });
+            $.each(_this.bots,function(i,v){
+                v.start();
+            });
         }
 
         function _pause(){
             $.each(_this.players,function(i,v){
+                v.pause();
+            });
+            $.each(_this.bots,function(i,v){
                 v.pause();
             });
         }
@@ -114,9 +134,14 @@
         }
 
         function checkForObstacles(player){
-            var i, j, x,y1,y2,temp,pos;
             $.each(_this.obstacles,function(i,v){
                 v.checkIfBlocking(player);
+            });
+        }
+
+        function _updateBotPositions(){
+            $.each(_this.bots,function(i,v){
+                v.updatePosition(_this.players[0]);
             });
         }
     }

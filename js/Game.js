@@ -24,6 +24,7 @@ var GAME = GAME || {};
         _this.continue = _continue;
         _this.stop = stop;
         _this.addPlayer = _addPlayer;
+        _this.addBots = _addBots;
 
         function setBoard(gameBoard){
             _this.board = gameBoard;
@@ -48,6 +49,10 @@ var GAME = GAME || {};
 
         function _addPlayer(player){
             _this.board.addPlayer(player);
+        }
+
+        function _addBots(){
+            _this.board.addBots();
         }
     }
 
