@@ -10,7 +10,7 @@ var GAME = GAME || {};
 
         _this.player = null;
         _this.animation =null;
-        _this.speed = 5;
+        _this.speed = 6;
         _this.board = null;
 
         _this.Vx=1;
